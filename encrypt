@@ -9,10 +9,11 @@ import os, sys
 from md5 import md5
 from Crypto.Cipher import AES
 from Crypto import Random
+from Crypto.Protocol.KDF import PBKDF2
 from getpass import getpass
 
 def getkey(password=None, iv=''):
-    return md5(str(iv) + str(password)).hexdigest()[:32]
+    return PBKDF2(password, iv, AES.block_size)
 
 def encrypt(message, password):
     """Encrypts a message with `key`"""
